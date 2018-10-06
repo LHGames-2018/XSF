@@ -60,16 +60,16 @@ namespace LHGames.Bot
         {
             string movement = "";
             int[] ClosestMineral = FindMineral(map);
-            lowestMineralDistance = getABS(ClosestMineral);
+            int lowestMineralDistance = getABS(ClosestMineral);
             if(lowestMineralDistance != 0){ //will only be 0 if it doesn't find a mineral
-                if (Math.Abs(Xdistance)>=Math.Abs(Ydistance)){
-                    int a = Xdistance/(Math.Abs(Xdistance));
+                if (Math.Abs(ClosestMineral[0])>=Math.Abs(ClosestMineral[1])){
+                    int a = ClosestMineral[0]/(Math.Abs(ClosestMineral[0]));
                     if (a==1){movement = MoveRight();}
                     if (a==-1){movement = MoveLeft();}
                 }
                 else
                 {
-                    int a = Ydistance/(Math.Abs(Ydistance));
+                    int a = ClosestMineral[1]/(Math.Abs(ClosestMineral[1]));
                     if (a==1){movement = MoveDown();}
                     if (a==-1){movement = MoveUp();}
                 }
