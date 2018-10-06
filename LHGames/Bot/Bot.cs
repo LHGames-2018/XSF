@@ -68,6 +68,7 @@ namespace LHGames.Bot
             int[] returnValue = {PlayerInfo.HouseLocation.X - PlayerInfo.Position.X, PlayerInfo.HouseLocation.Y - PlayerInfo.Position.Y};
             return returnValue;
         }
+
         internal int[] getDistance(TileContent tile, Map map)
         {
             int lowest = 20;
@@ -93,6 +94,7 @@ namespace LHGames.Bot
             int[] returnValue = {Xdistance,Ydistance};
             return returnValue;
         }
+
         internal string MoveDirection(int Xdistance, int Ydistance,Map map){
             if (Math.Abs(Xdistance) >= Math.Abs(Ydistance))
             {
@@ -107,6 +109,10 @@ namespace LHGames.Bot
                         return AIHelper.CreateMoveAction(new Point(0, 1));
                     }
                 }
+                if (map.GetTileAt(PlayerInfo.Position.X + (Xdistance / Math.Abs(Xdistance)), PlayerInfo.Position.Y) == TileContent.Wall)
+                {
+                    return AIHelper.CreateMeleeAttackAction(new Point((Xdistance / Math.Abs(Xdistance)), 0));
+                }
                 else
                 {
                     return AIHelper.CreateMoveAction(new Point((Xdistance / Math.Abs(Xdistance)), 0));
@@ -114,7 +120,7 @@ namespace LHGames.Bot
             }
             else
             {
-                if (map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y + (Ydistance / Ydistance)) == TileContent.Resource)
+                if (map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y + (Ydistance / Math.Abs(Ydistance))) == TileContent.Resource)
                 {
                     if (Math.Abs(Xdistance) != 0)
                     {
@@ -124,6 +130,10 @@ namespace LHGames.Bot
                     {
                         return AIHelper.CreateMoveAction(new Point(1, 0));
                     }
+                }
+                if (map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y + (Ydistance / Math.Abs(Ydistance))) == TileContent.Wall)
+                {
+                    return AIHelper.CreateMeleeAttackAction(new Point(0, (Ydistance / Math.Abs(Ydistance))));
                 }
                 else
                 {
