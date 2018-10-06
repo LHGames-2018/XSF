@@ -8,7 +8,7 @@ namespace LHGames.Bot
     {
         internal IPlayer PlayerInfo { get; set; }
         private int _currentDirection = 1;
-        private int _state;
+        private int _state = 0;
 
         internal Bot() { }
 
@@ -37,6 +37,13 @@ namespace LHGames.Bot
 
             var data = StorageHelper.Read<TestClass>("Test");
             Console.WriteLine(data?.Test);
+            int i = 0;
+            int j = 0;
+            for(i = -20; i < 20; i++)
+            {
+                for(i)
+            }
+
             switch(_state)
             {
                 case 0:
