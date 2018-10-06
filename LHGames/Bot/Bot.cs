@@ -9,7 +9,6 @@ namespace LHGames.Bot
         internal IPlayer PlayerInfo { get; set; }
 
         private int[] _currentDirection = new int[] { 0, 0 };
-        private Boolean goingHome = false;
 
         internal Bot() { }
 
@@ -33,8 +32,37 @@ namespace LHGames.Bot
         {
             _currentDirection[0] = 0;
             _currentDirection[1] = 0;
+            int[] HouseDistance = getHome(map);
+            int[] ClosestMine = getDistance(TileContent.Resource, map);
+            bool full = (PlayerInfo.CarryingCapacity == PlayerInfo.CarriedResources);
+            if(!full){
+                if (ABS(ClosestMine[0], ClosestMine[1]) == 1){ // a cote de la mine
+                    if((map.GetTileAt(PlayerInfo.Position.X + 1, PlayerInfo.Position.Y) == TileContent.Resource)){
+                        return AIHelper.CreateCollectAction(new Point(1,0));
+                    }
+                    if((map.GetTileAt(PlayerInfo.Position.X - 1, PlayerInfo.Position.Y) == TileContent.Resource)){
+                        return AIHelper.CreateCollectAction(new Point(-1,0));
+                    }
+                    if((map.GetTileAt(PlayerInfo.Position.X , PlayerInfo.Position.Y + 1) == TileContent.Resource)){
+                        return AIHelper.CreateCollectAction(new Point(0,1));
+                    }
+                    if((map.GetTileAt(PlayerInfo.Position.X , PlayerInfo.Position.Y - 1) == TileContent.Resource)){
+                        return AIHelper.CreateCollectAction(new Point(0,-1));
+                    }
+                }
+                else{
+                    return MoveDirection(ClosestMine[0], ClosestMine[1], map);
+                }
+            }
+            else{
+                return MoveDirection(HouseDistance[0], HouseDistance[1], map);
+            }
+            return AIHelper.CreateMoveAction(new Point(0,1));
         }
-        internal int[] getHome(TileContent tile, Map map)
+        internal int ABS(int x, int y){
+            return(Math.Abs(x)+Math.Abs(y));
+        }
+        internal int[] getHome(Map map)
         {
             int[] returnValue = {PlayerInfo.HouseLocation.X - PlayerInfo.Position.X, PlayerInfo.HouseLocation.Y - PlayerInfo.Position.Y};
             return returnValue;
@@ -102,7 +130,6 @@ namespace LHGames.Bot
                 }
             }
         }
-    }
         /// <summary>
         /// Gets called after ExecuteTurn.
         /// </summary>
