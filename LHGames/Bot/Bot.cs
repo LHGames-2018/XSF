@@ -26,8 +26,15 @@ namespace LHGames.Bot
         /// <param name="map">The gamemap.</param>
         /// <param name="visiblePlayers">Players that are visible to your bot.</param>
         /// <returns>The action you wish to execute.</returns>
+
+        internal string MoveUp()    {return AIHelper.CreateMoveAction(new Point(0,-1));}
+        internal string MoveDown()  {return AIHelper.CreateMoveAction(new Point(0, 1));}
+        internal string MoveRight() {return AIHelper.CreateMoveAction(new Point(1, 0));}
+        internal string MoveLeft()  {return AIHelper.CreateMoveAction(new Point(-1,0));}
+        
         internal string ExecuteTurn(Map map, IEnumerable<IPlayer> visiblePlayers)
         {
+            string movement = "";
             int lowest = 20;
             int Xdistance = 0;
             int Ydistance = 0;
@@ -49,18 +56,18 @@ namespace LHGames.Bot
 
             if(lowest != 0){
                 if (Math.Abs(Xdistance)>=Math.Abs(Ydistance)){
-                    _currentDirection[0] = Xdistance/(Math.Abs(Xdistance));
-                    _currentDirection[1] = 0;
-                    Console.WriteLine("x");
+                    int a = Xdistance/(Math.Abs(Xdistance));
+                    if (a==1){movement = MoveRight();}
+                    if (a==-1){movement = MoveLeft();}
                 }
                 else
                 {
-                    _currentDirection[1] = Ydistance/(Math.Abs(Ydistance));
-                    _currentDirection[0] = 0;
-                    Console.WriteLine("y");
+                    int a = Ydistance/(Math.Abs(Ydistance));
+                    if (a==1){movement = MoveDown();}
+                    if (a==-1){movement = MoveUp();}
                 }
             }
-
+            return movement;
             return AIHelper.CreateMoveAction(new Point(_currentDirection[0], _currentDirection[1]));
             
             // TODO: Implement your AI here.
@@ -72,7 +79,7 @@ namespace LHGames.Bot
             */
 
             var data = StorageHelper.Read<TestClass>("Test");
-            //Console.WriteLine(data?.Test);
+            Console.WriteLine(data?.Test);
             return AIHelper.CreateMoveAction(new Point(0, 0));
         }
 
