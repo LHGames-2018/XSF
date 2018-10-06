@@ -37,7 +37,7 @@ namespace LHGames.Bot
             if (ABS(HouseDistance[0], HouseDistance[1]) == 0){
                 for(int i = 0; i<5; i++){
                     int price = prices[upgrades[i]];
-                    if(price < PlayerInfo.TotalResources){
+                    if(price <= PlayerInfo.TotalResources){
                         return getType(i);
                     }
                 }
