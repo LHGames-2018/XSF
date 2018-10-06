@@ -161,8 +161,32 @@ namespace LHGames.Bot
                 }
                 else
                 {
-                    _currentDirection[1] = Ydistance / (Math.Abs(Ydistance));
-                    _currentDirection[0] = 0;
+                    if (map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y + (Ydistance / Ydistance)) == TileContent.Resource)
+                    {
+                        if (Math.Abs(Xdistance) != 0)
+                        {
+                            _currentDirection[0] = Xdistance / (Math.Abs(Xdistance));
+
+                            _currentDirection[1] = 0;
+                        }
+                        else if ((Math.Abs(Xdistance) + Math.Abs(Ydistance)) != 1)
+                        {
+                            _currentDirection[0] = 1;
+                            _currentDirection[1] = 0;
+                        }
+                        else
+                        {
+                            _currentDirection[1] = Ydistance / (Math.Abs(Ydistance));
+
+                            _currentDirection[0] = 0;
+                        }
+                    }
+                    else
+                    {
+                        _currentDirection[1] = Ydistance / (Math.Abs(Ydistance));
+
+                        _currentDirection[0] = 0;
+                    }
                     Console.WriteLine("y");
                 }
             }
