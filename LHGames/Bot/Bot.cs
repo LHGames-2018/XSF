@@ -37,13 +37,7 @@ namespace LHGames.Bot
 
             var data = StorageHelper.Read<TestClass>("Test");
             Console.WriteLine(data?.Test);
-            int i = 0;
-            int j = 0;
-            for(i = -20; i < 20; i++)
-            {
-                for(i)
-            }
-
+            
             switch(_state)
             {
                 case 0:
@@ -61,7 +55,7 @@ namespace LHGames.Bot
                     _state++;
                     return AIHelper.CreateMoveAction(new Point(1 ,0));
             }
-            return AIHelper.CreateMoveAction(new Point(0, -0));
+            return AIHelper.CreateMoveAction(new Point(0, 0));
             //return AIHelper.CreateMoveAction(new Point(_currentDirection, 0));
         }
 
