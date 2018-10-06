@@ -38,11 +38,29 @@ namespace LHGames.Bot
                 for(int i = 0; i<5; i++){
                     int price = prices[upgrades[i]];
                     if(price <= PlayerInfo.TotalResources){
-                        return getType(i);
+                        /*return getType(i);*/
                     }
                 }
             }
             int[] ClosestMine = getDistance(TileContent.Resource, map);
+            int[] ClosestPlayer = getDistance(TileContent.Player, map);
+            if (ABS(ClosestPlayer[0], ClosestPlayer[1]) < 9 && ABS(ClosestPlayer[0], ClosestPlayer[1]) > 1){
+                return MoveDirection(ClosestPlayer[0], ClosestPlayer[1], map);
+            }
+            else if (ABS(ClosestPlayer[0], ClosestPlayer[1]) == 1){
+                if(map.GetTileAt(PlayerInfo.Position.X + 1, PlayerInfo.Position.Y) == TileContent.Player){
+                    return AIHelper.CreateMeleeAttackAction(new Point(1,0));
+                }
+                if(map.GetTileAt(PlayerInfo.Position.X - 1, PlayerInfo.Position.Y) == TileContent.Player){
+                    return AIHelper.CreateMeleeAttackAction(new Point(-1,0));
+                }
+                if(map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y + 1) == TileContent.Player){
+                    return AIHelper.CreateMeleeAttackAction(new Point(0,1));
+                }
+                if(map.GetTileAt(PlayerInfo.Position.X + 1, PlayerInfo.Position.Y) == TileContent.Player){
+                    return AIHelper.CreateMeleeAttackAction(new Point(0,-1));
+                }
+            }
             bool full = (PlayerInfo.CarryingCapacity == PlayerInfo.CarriedResources);
             if(!full){
                 if (ABS(ClosestMine[0], ClosestMine[1]) == 0){return MoveDirection(HouseDistance[0], HouseDistance[1], map);}
