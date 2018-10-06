@@ -35,9 +35,9 @@ namespace LHGames.Bot
             int lowest = 20;
             int Xdistance = 0;
             int Ydistance = 0;
-            for (int dx = -19; dx <= 19; dx++)
+            for (int dx = -9; dx <= 9; dx++)
             {
-                for (int dy = -19; dy <= 19; dy++)
+                for (int dy = -9; dy <= 9; dy++)
                     {
                         if (map.GetTileAt(PlayerInfo.Position.X + dx, PlayerInfo.Position.Y  + dy) == TileContent.Resource){
                             int total = Math.Abs(dx)+ Math.Abs(dy);
