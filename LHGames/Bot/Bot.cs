@@ -56,38 +56,73 @@ namespace LHGames.Bot
         internal int getABS(int[] tab){
             return (Math.Abs(tab[0])+Math.Abs(tab[1]));
         }
+        internal string Mine(Map map){
+            if(map.GetTileAt(PlayerInfo.Position.X + 1, PlayerInfo.Position.Y) == TileContent.Resource){
+                return AIHelper.CreateCollectAction( new Point(1, 0));
+            }
+            if(map.GetTileAt(PlayerInfo.Position.X - 1, PlayerInfo.Position.Y) == TileContent.Resource){
+                return AIHelper.CreateCollectAction( new Point(-1, 0));
+            }
+            if(map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y + 1) == TileContent.Resource){
+                return AIHelper.CreateCollectAction( new Point(0, 1));
+            }
+            if(map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y - 1) == TileContent.Resource){
+                return AIHelper.CreateCollectAction( new Point(0, -1));
+            }
+            return AIHelper.CreateCollectAction( new Point(0, 0));
+            
+        }
+        internal int[] FindHouse(Map map){
+            int lowest = 20;
+            int Xdistance = 0;
+            int Ydistance = 0;
+            for (int dx = -9; dx <= 9; dx++)
+            {
+                for (int dy = -9; dy <= 9; dy++)
+                    {
+                        if (map.GetTileAt(PlayerInfo.Position.X + dx, PlayerInfo.Position.Y  + dy) == TileContent.House){
+                            int total = Math.Abs(dx)+ Math.Abs(dy);
+                            if (total <= lowest){
+                                Xdistance = dx;
+                                Ydistance = dy;
+                                lowest = total;
+                            }
+                            Console.WriteLine("total: "+total);
+                        }
+                    }
+            }
+            int[] returnvalue =  {Xdistance,Ydistance};
+            return returnvalue;
+        }
         internal string ExecuteTurn(Map map, IEnumerable<IPlayer> visiblePlayers)
         {
             string movement = "";
-            int[] ClosestMineral = FindMineral(map);
-            int lowestMineralDistance = getABS(ClosestMineral);
-            if(lowestMineralDistance != 0){ //will only be 0 if it doesn't find a mineral
-                if (Math.Abs(ClosestMineral[0])>=Math.Abs(ClosestMineral[1])){
-                    int a = ClosestMineral[0]/(Math.Abs(ClosestMineral[0]));
-                    if (a==1){movement = MoveRight();}
-                    if (a==-1){movement = MoveLeft();}
+            if (IPlayer.CarriedCapacity-IPlayer.CarriedResources != 0){ //if you can carry more
+                int[] ClosestMineral = FindMineral(map);
+                int lowestMineralDistance = getABS(ClosestMineral);
+                if(lowestMineralDistance != 0){ //will only be 0 if it doesn't find a mineral
+                    if (Math.Abs(ClosestMineral[0])>=Math.Abs(ClosestMineral[1])){
+                        int a = ClosestMineral[0]/(Math.Abs(ClosestMineral[0]));
+                        if (a==1){movement = MoveRight();}
+                        if (a==-1){movement = MoveLeft();}
+                    }
+                    else
+                    {
+                        int a = ClosestMineral[1]/(Math.Abs(ClosestMineral[1]));
+                        if (a== 1){movement = MoveDown();}
+                        if (a==-1){movement = MoveUp();  }
+                    }
                 }
-                else
-                {
-                    int a = ClosestMineral[1]/(Math.Abs(ClosestMineral[1]));
-                    if (a==1){movement = MoveDown();}
-                    if (a==-1){movement = MoveUp();}
-                }
+                return movement;
             }
-            return movement;
-            return AIHelper.CreateMoveAction(new Point(_currentDirection[0], _currentDirection[1]));
-            
-            // TODO: Implement your AI here.
-            /*
-            if (map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y  + _currentDirection) == TileContent.Wall)
-            {
-                _currentDirection *= -1;
+            else { // you are full
+                Point MyHouseDirection = IPlayer.HouseLocation - IPlayer.Position;
+                int[] HouseDirection = {MyHouseDirection[0], MyHouseDirection[1]};
+                return 
             }
-            */
-
             var data = StorageHelper.Read<TestClass>("Test");
             Console.WriteLine(data?.Test);
-            return AIHelper.CreateMoveAction(new Point(0, 0));
+            return movement;
         }
 
         /// <summary>
