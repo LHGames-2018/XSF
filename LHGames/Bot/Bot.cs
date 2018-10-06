@@ -93,69 +93,41 @@ namespace LHGames.Bot
             int[] returnValue = {Xdistance,Ydistance};
             return returnValue;
         }
-        internal void MoveDirection(int Xdistance, int Ydistance){
-            if (lowest != 0)
+        internal string MoveDirection(int Xdistance, int Ydistance,Map map){
+            if (Math.Abs(Xdistance) >= Math.Abs(Ydistance))
             {
-                if (Math.Abs(Xdistance) >= Math.Abs(Ydistance) || map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y + (Ydistance / Ydistance)) == TileContent.Resource)
+                if (map.GetTileAt(PlayerInfo.Position.X + (Xdistance / Xdistance), PlayerInfo.Position.Y) == TileContent.Resource)
                 {
-                    if (tile != TileContent.Resource || Xdistance != 0)
+                    if (Math.Abs(Ydistance) != 0)
                     {
-                        if(map.GetTileAt(PlayerInfo.Position.X +(Xdistance/Xdistance), PlayerInfo.Position.Y) == TileContent.Resource)
-                        {
-                            if (Math.Abs(Ydistance) != 0)
-                            {
-                                _currentDirection[1] = Ydistance / (Math.Abs(Ydistance));
-                                _currentDirection[0] = 0;
-                            }
-                            else if ((Math.Abs(Xdistance) + Math.Abs(Ydistance)) != 1)
-                            {
-                                _currentDirection[0] = 0;
-                                _currentDirection[1] = 1;
-                            }
-                        }
-                        else
-                        {
-                        _currentDirection[0] = Xdistance / (Math.Abs(Xdistance));
-                        _currentDirection[1] = 0;
-                        }
+                        return AIHelper.CreateMoveAction(new Point(0, (Ydistance / Math.Abs(Ydistance))));
                     }
-
-                    else {
-                        if (map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y + (Ydistance/Ydistance)) == TileContent.Resource)
-                        {
-                            if (Math.Abs(Xdistance) != 0)
-                            {
-                                _currentDirection[0] = Xdistance / (Math.Abs(Xdistance));
-
-                                _currentDirection[1] = 0;
-                            }
-                            else if ((Math.Abs(Xdistance) + Math.Abs(Ydistance)) != 1)
-                            {
-                                _currentDirection[0] = 1;
-                                _currentDirection[1] = 0;
-                            }
-                            else {
-                                _currentDirection[1] = Ydistance / (Math.Abs(Ydistance));
-
-                                _currentDirection[0] = 0;
-                            }
-                        }
-                        else
-                        {
-                            _currentDirection[1] = Ydistance / (Math.Abs(Ydistance));
-
-                            _currentDirection[0] = 0;
-                        }
-
+                    else
+                    {
+                        return AIHelper.CreateMoveAction(new Point(0, 1));
                     }
-
-                    Console.WriteLine("x");
                 }
                 else
                 {
-                    _currentDirection[1] = Ydistance / (Math.Abs(Ydistance));
-                    _currentDirection[0] = 0;
-                    Console.WriteLine("y");
+                    return AIHelper.CreateMoveAction(new Point((Xdistance / Math.Abs(Xdistance)), 0));
+                }
+            }
+            else
+            {
+                if (map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y + (Ydistance / Ydistance)) == TileContent.Resource)
+                {
+                    if (Math.Abs(Xdistance) != 0)
+                    {
+                        return AIHelper.CreateMoveAction(new Point((Xdistance / Math.Abs(Xdistance)), 0));
+                    }
+                    else
+                    {
+                        return AIHelper.CreateMoveAction(new Point(1, 0));
+                    }
+                }
+                else
+                {
+                    return AIHelper.CreateMoveAction(new Point(0, (Ydistance / Math.Abs(Ydistance))));
                 }
             }
         }
