@@ -7,8 +7,13 @@ namespace LHGames.Bot
     internal class Bot
     {
         internal IPlayer PlayerInfo { get; set; }
+<<<<<<< HEAD
         private int[] _currentDirection = new int[] {0,0};
         private Boolean goingHome = false;
+=======
+        private int _currentDirection = 1;
+        private int _state = 0;
+>>>>>>> master
 
         internal Bot() { }
 
@@ -62,6 +67,7 @@ namespace LHGames.Bot
 
             
             // TODO: Implement your AI here.
+<<<<<<< HEAD
             /*
             if (map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y  + _currentDirection) == TileContent.Wall)
             {
@@ -72,6 +78,35 @@ namespace LHGames.Bot
             var data = StorageHelper.Read<TestClass>("Test");
             //Console.WriteLine(data?.Test);
             return AIHelper.CreateMoveAction(new Point(0, 0));
+=======
+            //if (map.GetTileAt(PlayerInfo.Position.X + _currentDirection, PlayerInfo.Position.Y) == TileContent.Wall)
+            //{
+            //    _currentDirection *= -1;
+            //}
+
+            var data = StorageHelper.Read<TestClass>("Test");
+            Console.WriteLine(data?.Test);
+            
+            switch(_state)
+            {
+                case 0:
+                    _state++;
+                    return AIHelper.CreateMoveAction(new Point(0, 1));
+                    
+                case 1:
+                    _state++;
+                    return AIHelper.CreateMoveAction(new Point(0, 1));
+                    
+                case 2:
+                    _state++;
+                    return AIHelper.CreateMoveAction(new Point(0, 1));
+                case 3:
+                    _state++;
+                    return AIHelper.CreateMoveAction(new Point(1 ,0));
+            }
+            return AIHelper.CreateMoveAction(new Point(0, 0));
+            //return AIHelper.CreateMoveAction(new Point(_currentDirection, 0));
+>>>>>>> master
         }
         internal void getDirectionTo(TileContent tile,Map map)
         {
