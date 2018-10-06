@@ -33,40 +33,6 @@ namespace LHGames.Bot
         {
             _currentDirection[0] = 0;
             _currentDirection[1] = 0;
-            if (goingHome)
-            {
-                int[] DirectionToHouse = new int[] { PlayerInfo.HouseLocation.X - PlayerInfo.Position.X, PlayerInfo.HouseLocation.Y - PlayerInfo.Position.Y};
-            }
-            else
-            {
-                getDirectionTo(TileContent.Resource, map);
-            }
-            if (map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y) == TileContent.House && goingHome == true)
-            {
-                goingHome = false;
-                return AIHelper.CreateMoveAction(new Point(0, 0));
-            }
-            if (map.GetTileAt(PlayerInfo.Position.X + _currentDirection[0], PlayerInfo.Position.Y + _currentDirection[1]) == TileContent.Resource)
-            {
-                Console.WriteLine(PlayerInfo.TotalResources);
-                if (PlayerInfo.CarriedResources == PlayerInfo.CarryingCapacity)
-                {
-                    goingHome = true;
-                }
-                getDirectionTo(TileContent.Resource, map);
-                return AIHelper.CreateCollectAction(new Point(_currentDirection[0], _currentDirection[1]));
-            }
-
-            // XI CHEN attack wall and player
-            if (map.GetTileAt(PlayerInfo.Position.X + _currentDirection[0], PlayerInfo.Position.Y + _currentDirection[1]) == TileContent.Wall ||
-                map.GetTileAt(PlayerInfo.Position.X + _currentDirection[0], PlayerInfo.Position.Y + _currentDirection[1]) == TileContent.Player)
-            {
-                return AIHelper.CreateMeleeAttackAction(new Point(_currentDirection[0], _currentDirection[1]));
-            }
-            else
-            {
-                return AIHelper.CreateMoveAction(new Point(_currentDirection[0], _currentDirection[1]));
-            }
         }
         internal int[] getDistance(TileContent tile, Map map)
         {
