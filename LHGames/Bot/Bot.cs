@@ -54,7 +54,7 @@ namespace LHGames.Bot
                     _state++;
                     return AIHelper.CreateMoveAction(new Point(1 ,0));
             }
-            return AIHelper.CreateMoveAction(new Point(0, 0));
+            return AIHelper.CreateMoveAction(new Point(0, -0));
             //return AIHelper.CreateMoveAction(new Point(_currentDirection, 0));
         }
 
