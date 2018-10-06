@@ -34,6 +34,11 @@ namespace LHGames.Bot
             _currentDirection[0] = 0;
             _currentDirection[1] = 0;
         }
+        internal int[] getHome(TileContent tile, Map map)
+        {
+            int[] returnValue = {PlayerInfo.HouseLocation.X - PlayerInfo.Position.X, PlayerInfo.HouseLocation.Y - PlayerInfo.Position.Y};
+            return returnValue;
+        }
         internal int[] getDistance(TileContent tile, Map map)
         {
             int lowest = 20;
