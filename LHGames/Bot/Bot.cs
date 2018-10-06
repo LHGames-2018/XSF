@@ -31,16 +31,13 @@ namespace LHGames.Bot
         internal string MoveDown()  {return AIHelper.CreateMoveAction(new Point(0, 1));}
         internal string MoveRight() {return AIHelper.CreateMoveAction(new Point(1, 0));}
         internal string MoveLeft()  {return AIHelper.CreateMoveAction(new Point(-1,0));}
-        
-        internal string ExecuteTurn(Map map, IEnumerable<IPlayer> visiblePlayers)
-        {
-            string movement = "";
+        internal int[] FindMineral(Map map){
             int lowest = 20;
             int Xdistance = 0;
             int Ydistance = 0;
-            for (int dx = -9; dx <= 9; dx++)
+            for (int dx = -19; dx <= 19; dx++)
             {
-                for (int dy = -9; dy <= 9; dy++)
+                for (int dy = -19; dy <= 19; dy++)
                     {
                         if (map.GetTileAt(PlayerInfo.Position.X + dx, PlayerInfo.Position.Y  + dy) == TileContent.Resource){
                             int total = Math.Abs(dx)+ Math.Abs(dy);
@@ -53,8 +50,18 @@ namespace LHGames.Bot
                         }
                     }
             }
-
-            if(lowest != 0){
+            int[] returnvalue =  {Xdistance,Ydistance};
+            return returnvalue;
+        }
+        internal int getABS(int[] tab){
+            return (Math.Abs(tab[0])+Math.Abs(tab[1]));
+        }
+        internal string ExecuteTurn(Map map, IEnumerable<IPlayer> visiblePlayers)
+        {
+            string movement = "";
+            int[] ClosestMineral = FindMineral(map);
+            lowestMineralDistance = getABS(ClosestMineral);
+            if(lowestMineralDistance != 0){ //will only be 0 if it doesn't find a mineral
                 if (Math.Abs(Xdistance)>=Math.Abs(Ydistance)){
                     int a = Xdistance/(Math.Abs(Xdistance));
                     if (a==1){movement = MoveRight();}
