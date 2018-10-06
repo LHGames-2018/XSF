@@ -9,7 +9,8 @@ namespace LHGames.Bot
         internal IPlayer PlayerInfo { get; set; }
 
         private int[] _currentDirection = new int[] { 0, 0 };
-
+        private int[] prices = new int[] {10000,15000,25000,50000,100000};
+        private int[] upgrades = new int[] {0,0,0,0,0};
         internal Bot() { }
 
         /// <summary>
@@ -33,6 +34,14 @@ namespace LHGames.Bot
             _currentDirection[0] = 0;
             _currentDirection[1] = 0;
             int[] HouseDistance = getHome(map);
+            if (ABS(HouseDistance[0], HouseDistance[1]) == 0){
+                for(int i = 0; i<5; i++){
+                    int price = prices[upgrades[i]];
+                    if(price > PlayerInfo.TotalResources){
+                        return getType(i);
+                    }
+                }
+            }
             int[] ClosestMine = getDistance(TileContent.Resource, map);
             bool full = (PlayerInfo.CarryingCapacity == PlayerInfo.CarriedResources);
             if(!full){
@@ -60,9 +69,30 @@ namespace LHGames.Bot
             }
             return AIHelper.CreateMoveAction(new Point(0,1));
         }
+
         internal int ABS(int x, int y){
             return(Math.Abs(x)+Math.Abs(y));
         }
+
+        internal string getType(int u){
+            if (u==0){
+                return AIHelper.CreateUpgradeAction(UpgradeType.CarryingCapacity);
+            }
+            if (u==1){
+                return AIHelper.CreateUpgradeAction(UpgradeType.CollectingSpeed);
+            }
+            if (u==2){
+                return AIHelper.CreateUpgradeAction(UpgradeType.Defence);
+            }
+            if (u==3){
+                return AIHelper.CreateUpgradeAction(UpgradeType.AttackPower);
+            }
+            if (u==4){
+                return AIHelper.CreateUpgradeAction(UpgradeType.MaximumHealth);
+            }
+            return "";
+        }
+
         internal int[] getHome(Map map)
         {
             int[] returnValue = {PlayerInfo.HouseLocation.X - PlayerInfo.Position.X, PlayerInfo.HouseLocation.Y - PlayerInfo.Position.Y};
