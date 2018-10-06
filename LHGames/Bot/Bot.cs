@@ -8,7 +8,7 @@ namespace LHGames.Bot
     {
         internal IPlayer PlayerInfo { get; set; }
         private int _currentDirection = 1;
-
+        private 
         internal Bot() { }
 
         /// <summary>
@@ -29,10 +29,30 @@ namespace LHGames.Bot
         internal string ExecuteTurn(Map map, IEnumerable<IPlayer> visiblePlayers)
         {
             // TODO: Implement your AI here.
+           
             if (map.GetTileAt(PlayerInfo.Position.X + _currentDirection, PlayerInfo.Position.Y) == TileContent.Wall)
             {
                 _currentDirection *= -1;
+
+                for (int i = -10; i < 10; i++)
+                {
+                    for (int j = -10; i < 10; j++)
+                    {
+                        if (map.GetTileAt(PlayerInfo.Position.X + i, PlayerInfo.Position.Y + j) == TileContent.Resource)
+                        {
+                            while (PlayerInfo.Position.X != PlayerInfo.Position.X + i)
+                            {
+
+                                _currentDirection = 0;
+                            }
+                        }
+
+                    }
+                }
             }
+
+
+            
 
             var data = StorageHelper.Read<TestClass>("Test");
             Console.WriteLine(data?.Test);
