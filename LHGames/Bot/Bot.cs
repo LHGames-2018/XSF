@@ -90,7 +90,8 @@ namespace LHGames.Bot
                     }
                 }
             }
-            return {Xdistance,Ydistance};
+            int[] returnValue = {Xdistance,Ydistance};
+            return returnValue;
         }
         internal void MoveDirection(int Xdistance, int Ydistance){
             if (lowest != 0)
