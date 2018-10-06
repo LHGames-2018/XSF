@@ -114,6 +114,11 @@ namespace LHGames.Bot
 
                                 _currentDirection[0] = 0;
                             }
+                            else if ((Math.Abs(Xdistance) + Math.Abs(Ydistance)) != 1)
+                            {
+                                _currentDirection[0] = 0;
+                                _currentDirection[1] = 1;
+                            }
                         }
                         else
                         {
@@ -132,10 +137,15 @@ namespace LHGames.Bot
 
                                 _currentDirection[1] = 0;
                             }
-                            else
+                            else if ((Math.Abs(Xdistance) + Math.Abs(Ydistance)) != 1)
                             {
                                 _currentDirection[0] = 1;
                                 _currentDirection[1] = 0;
+                            }
+                            else {
+                                _currentDirection[1] = Ydistance / (Math.Abs(Ydistance));
+
+                                _currentDirection[0] = 0;
                             }
                         }
                         else
