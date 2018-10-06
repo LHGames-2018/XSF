@@ -28,7 +28,7 @@ namespace LHGames.Bot
         /// <returns>The action you wish to execute.</returns>
         internal string ExecuteTurn(Map map, IEnumerable<IPlayer> visiblePlayers)
         {
-            int lowest = 0;
+            int lowest = 20;
             int Xdistance = 0;
             int Ydistance = 0;
             for (int dx = -9; dx <= 9; dx++)
@@ -42,7 +42,7 @@ namespace LHGames.Bot
                                 Ydistance = dy;
                                 lowest = total;
                             }
-                            Console.WriteLine(total);
+                            Console.WriteLine("total: "+total);
                         }
                     }
             }
@@ -51,11 +51,13 @@ namespace LHGames.Bot
                 if (Math.Abs(Xdistance)>=Math.Abs(Ydistance)){
                     _currentDirection[0] = Xdistance/(Math.Abs(Xdistance));
                     _currentDirection[1] = 0;
+                    Console.WriteLine("x");
                 }
                 else
                 {
                     _currentDirection[1] = Ydistance/(Math.Abs(Ydistance));
                     _currentDirection[0] = 0;
+                    Console.WriteLine("y");
                 }
             }
 
