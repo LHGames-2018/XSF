@@ -61,7 +61,7 @@ namespace LHGames.Bot
                 return AIHelper.CreateCollectAction(new Point(_currentDirection[0], _currentDirection[1]));
             }
 
-
+            // XI CHEN
             if (map.GetTileAt(PlayerInfo.Position.X + _currentDirection[0], PlayerInfo.Position.Y + _currentDirection[1]) == TileContent.Wall ||
                 map.GetTileAt(PlayerInfo.Position.X + _currentDirection[0], PlayerInfo.Position.Y + _currentDirection[1]) == TileContent.Player)
             {
