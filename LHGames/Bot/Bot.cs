@@ -8,7 +8,7 @@ namespace LHGames.Bot
     {
         internal IPlayer PlayerInfo { get; set; }
 
-        private int[] _currentDirection = new int[] {0,0};
+        private int[] _currentDirection = new int[] { 0, 0 };
         private Boolean goingHome = false;
 
 
@@ -45,27 +45,39 @@ namespace LHGames.Bot
             }
             if (map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y) == TileContent.House && goingHome == true)
             {
-               
+
                 goingHome = false;
                 return AIHelper.CreateMoveAction(new Point(0, 0));
             }
             if (map.GetTileAt(PlayerInfo.Position.X + _currentDirection[0], PlayerInfo.Position.Y + _currentDirection[1]) == TileContent.Resource)
             {
                 Console.WriteLine(PlayerInfo.TotalResources);
-                if(PlayerInfo.CarriedResources == PlayerInfo.CarryingCapacity)
+                if (PlayerInfo.CarriedResources == PlayerInfo.CarryingCapacity)
                 {
-                goingHome = true;
+                    goingHome = true;
 
                 }
                 getDirectionTo(TileContent.Resource, map);
                 return AIHelper.CreateCollectAction(new Point(_currentDirection[0], _currentDirection[1]));
             }
-            return AIHelper.CreateMoveAction(new Point(_currentDirection[0], _currentDirection[1]));
+
+
+            if (map.GetTileAt(PlayerInfo.Position.X + _currentDirection[0], PlayerInfo.Position.Y + _currentDirection[1]) == TileContent.Wall ||
+                map.GetTileAt(PlayerInfo.Position.X + _currentDirection[0], PlayerInfo.Position.Y + _currentDirection[1]) == TileContent.Player)
+            {
+                // _currentDirection *= -1;
+                return AIHelper.CreateMeleeAttackAction(new Point(_currentDirection[0], _currentDirection[1]));
+            }
+            else
+            {
+                return AIHelper.CreateMoveAction(new Point(_currentDirection[0], _currentDirection[1]));
+            }
+
 
 
 
         }
-        internal void getDirectionTo(TileContent tile,Map map)
+        internal void getDirectionTo(TileContent tile, Map map)
         {
             int lowest = 20;
             int Xdistance = 0;
@@ -90,7 +102,7 @@ namespace LHGames.Bot
 
             if (lowest != 0)
             {
-                if (Math.Abs(Xdistance) >= Math.Abs(Ydistance) || map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y + (Ydistance/Ydistance)) == TileContent.Resource)
+                if (Math.Abs(Xdistance) >= Math.Abs(Ydistance) || map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y + (Ydistance / Ydistance)) == TileContent.Resource)
                 {
                     if (tile != TileContent.Resource || Xdistance != 0)
                     {
@@ -98,12 +110,13 @@ namespace LHGames.Bot
                         _currentDirection[0] = Xdistance / (Math.Abs(Xdistance));
                         _currentDirection[1] = 0;
                     }
-                    else {
+                    else
+                    {
                         if (Math.Abs(Ydistance) != 0)
                         {
-                        _currentDirection[1] = Ydistance / (Math.Abs(Ydistance));
+                            _currentDirection[1] = Ydistance / (Math.Abs(Ydistance));
 
-                        _currentDirection[0] = 0;
+                            _currentDirection[0] = 0;
                         }
 
                     }
