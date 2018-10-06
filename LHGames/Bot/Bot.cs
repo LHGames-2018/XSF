@@ -36,7 +36,7 @@ namespace LHGames.Bot
             int[] ClosestMine = getDistance(TileContent.Resource, map);
             bool full = (PlayerInfo.CarryingCapacity == PlayerInfo.CarriedResources);
             if(!full){
-                if (ABS(ClosestMine[0], ClosestMine[1]) == 0){return MoveDirection(HouseDistance[0], HouseDistance[1], map)}
+                if (ABS(ClosestMine[0], ClosestMine[1]) == 0){return MoveDirection(HouseDistance[0], HouseDistance[1], map);}
                 if (ABS(ClosestMine[0], ClosestMine[1]) == 1){ // a cote de la mine
                     if((map.GetTileAt(PlayerInfo.Position.X + 1, PlayerInfo.Position.Y) == TileContent.Resource)){
                         return AIHelper.CreateCollectAction(new Point(1,0));
