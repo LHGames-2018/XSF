@@ -10,7 +10,7 @@ namespace LHGames.Bot
 
         private int[] _currentDirection = new int[] { 0, 0 };
         private int[] prices = new int[] {10000,15000,25000,50000,100000};
-        private int[] upgrades = new int[] {0,0,0,0,0};
+        private int[] upgrades = new int[] {1,0,0,0,0};
         internal Bot() { }
 
         /// <summary>
@@ -38,7 +38,8 @@ namespace LHGames.Bot
                 for(int i = 0; i<5; i++){
                     int price = prices[upgrades[i]];
                     if(price <= PlayerInfo.TotalResources){
-                        /*return getType(i);*/
+                        upgrades[i]+=1;
+                        return getType(i);
                     }
                 }
             }
@@ -57,7 +58,7 @@ namespace LHGames.Bot
                 if(map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y + 1) == TileContent.Player){
                     return AIHelper.CreateMeleeAttackAction(new Point(0,1));
                 }
-                if(map.GetTileAt(PlayerInfo.Position.X + 1, PlayerInfo.Position.Y) == TileContent.Player){
+                if(map.GetTileAt(PlayerInfo.Position.X, PlayerInfo.Position.Y - 1) == TileContent.Player){
                     return AIHelper.CreateMeleeAttackAction(new Point(0,-1));
                 }
             }
