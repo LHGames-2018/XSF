@@ -39,7 +39,7 @@ namespace LHGames.Bot
                     int price = prices[upgrades[i]];
                     if(price <= PlayerInfo.TotalResources){
                         upgrades[i]+=1;
-                        return getType(i);
+                        /*return getType(i);*/
                     }
                 }
             }
